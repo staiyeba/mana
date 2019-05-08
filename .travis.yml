@@ -1,0 +1,38 @@
+os: osx
+osx_image: xcode10.2
+compiler:
+  - clang
+  - gcc
+  - python
+
+addons:
+  homebrew:
+    packages:
+    - cmake
+    - conan
+    - nasm
+    - llvm@6
+
+before_cache:
+  - brew cleanup
+
+cache:
+  - directories:
+    - $HOME/Library/Caches/Homebrew
+
+jobs:
+  include:
+    - script:
+        - conan install integration/simple -pr clang-6.0-macos-x86_64
+        - source activate.sh
+        - cmake -Dfor_production=OFF integration/simple
+        - make -j$(nproc) 
+      name: "clang-6.0-x86_64"
+
+install:
+  - conan config install https://github.com/includeos/conan_config.git
+  - conan --version
+  - clang --version
+
+after_script:
+  - source deactivate.sh
