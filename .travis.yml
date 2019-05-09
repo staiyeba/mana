@@ -23,6 +23,8 @@ cache:
 jobs:
   include:
     - script:
+        - conan create . includeos/latest -pr clang-6.0-macos-x86_64
+        - conan inspect -a version . | cut -d ' ' -f 2
         - conan install integration/simple -pr clang-6.0-macos-x86_64
         - . ./activate.sh
         - cmake -Dfor_production=OFF integration/simple
