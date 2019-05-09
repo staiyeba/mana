@@ -24,9 +24,9 @@ jobs:
   include:
     - script:
         - conan install integration/simple -pr clang-6.0-macos-x86_64
-        - source activate.sh
+        - . ./activate.sh
         - cmake -Dfor_production=OFF integration/simple
-        - make -j$(nproc) 
+        - make -j$(nproc)
       name: "clang-6.0-x86_64"
 
 install:
